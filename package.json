@@ -15,5 +15,9 @@
     },
     "optionalDependencies": {
         "@laravel/multiplex": "^0.4.1"
+    },
+    "dependencies": {
+        "lucide": "^1.31.0",
+        "sweetalert2": "^11.26.25"
     }
 }

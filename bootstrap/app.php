@@ -12,10 +12,25 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\EnsureAdmin::class,
+            'screens' => \App\Http\Middleware\RestrictToPermittedScreens::class,
+        ]);
+
+        $middleware->web(append: [
+            \App\Http\Middleware\NoCache::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'انتهت صلاحية الجلسة، حاول مرة أخرى.'], 419);
+            }
+
+            return redirect()->route('login')->with('error', 'انتهت صلاحية الجلسة، سجّل الدخول مرة أخرى.');
+        });
     })->create();

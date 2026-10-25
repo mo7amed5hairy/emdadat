@@ -1,9 +1,192 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap");
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Cairo', ui-sans-serif, system-ui, sans-serif;
+    --color-background: #F3F8F8;
+    --color-foreground: #0C2327;
+    --color-card: #FFFFFF;
+    --color-popover: #FFFFFF;
+    --color-primary: #006A6A;
+    --color-primary-foreground: #F8FDFC;
+    --color-brand: #006A6A;
+    --color-brand-foreground: #F8FDFC;
+    --color-secondary: #E6F3F3;
+    --color-secondary-foreground: #004447;
+    --color-muted: #EBF4F4;
+    --color-muted-foreground: #587175;
+    --color-accent: #D1EFEC;
+    --color-accent-foreground: #004042;
+    --color-gold: #DEA645;
+    --color-gold-foreground: #331F05;
+    --color-success: #33A36D;
+    --color-success-foreground: #F6FEF9;
+    --color-destructive: #E7000B;
+    --color-destructive-foreground: #F8FAFC;
+    --color-border: #E2E8F0;
+    --color-input: #E2E8F0;
+    --color-ring: #90A1B9;
+    --color-sidebar: rgba(194, 236, 220, 0.34);
+    --color-sidebar-foreground: #020618;
+    --color-sidebar-primary: #0F172B;
+    --color-sidebar-primary-foreground: #F8FAFC;
+    --color-sidebar-accent: #F1F5F9;
+    --color-sidebar-accent-foreground: #0F172B;
+    --color-sidebar-border: #E2E8F0;
+    --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.05);
+    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.04), 0 8px 24px -8px rgb(15 23 42 / 0.12);
+    --shadow-glow: 0 8px 24px -6px rgb(0 106 106 / 0.5);
+}
+
+html {
+    font-family: var(--font-sans);
+}
+
+body {
+    font-family: var(--font-sans);
+}
+
+/* ===== سكرول رفيع ===== */
+.scroll-slim::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+.scroll-slim::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scroll-slim::-webkit-scrollbar-thumb {
+    background: rgb(201 219 223 / 0.55);
+    border-radius: 9999px;
+}
+.scroll-slim::-webkit-scrollbar-thumb:hover {
+    background: rgb(162 189 194 / 0.65);
+}
+.scroll-slim {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(201 219 223 / 0.55) transparent;
+}
+
+/* ===== حركات ===== */
+@keyframes ocFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes ocZoomIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes ocSlideUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ocToastIn {
+    from { opacity: 0; transform: translateX(-14px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes ocDrawerIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+@keyframes ocSpin {
+    to { transform: rotate(360deg); }
+}
+
+.animate-fade-in { animation: ocFadeIn 0.2s ease-out; }
+.animate-zoom-in { animation: ocZoomIn 0.2s ease-out; }
+.animate-slide-up { animation: ocSlideUp 0.3s ease-out; }
+.animate-toast-in { animation: ocToastIn 0.25s ease-out; }
+.animate-drawer { animation: ocDrawerIn 0.3s ease-out; }
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgb(248 253 252 / 0.35);
+    border-top-color: rgb(248 253 252);
+    border-radius: 9999px;
+    animation: ocSpin 0.6s linear infinite;
+    display: inline-block;
+}
+
+/* ===== الطباعة ===== */
+@media print {
+    aside,
+    header,
+    #toast-container,
+    .dt-toolbar {
+        display: none !important;
+    }
+
+    body {
+        background: #fff !important;
+    }
+
+    main {
+        padding: 0 !important;
+    }
+
+    .scroll-slim {
+        overflow-x: visible !important;
+    }
+
+    table {
+        width: 100% !important;
+        min-width: 0 !important;
+        font-size: 12pt;
+    }
+
+    th,
+    td {
+        padding: 6pt 8pt !important;
+        white-space: normal !important;
+    }
+
+    /* تكرار رأس الجدول أعلى كل صفحة مطبوعة */
+    thead {
+        display: table-header-group;
+    }
+
+    tr,
+    td,
+    th {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+}
+
+/* SweetAlert عرض أكبر للنماذج المتعددة الحقول */
+.swal-wide .swal2-popup {
+    overflow: visible !important;
+    width: 420px !important;
+}
+.swal-wide .swal2-html-container {
+    margin: 0.5em 1em !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+.swal-wide .swal2-actions {
+    margin-top: 1.2em !important;
+    position: relative;
+    z-index: 31;
+}
+/* الدروب داون بتاع المستشفيات داخل البوب أب يبقى في تدفق المحتوى عشان يطول البوب أب */
+.swal-wide .ss-menu {
+    position: static !important;
+    z-index: auto !important;
+    box-shadow: none !important;
+    border: 1px solid var(--color-border) !important;
+    margin-top: 0.25rem !important;
+}
+.swal-wide .ss-menu ul {
+    max-height: 14rem !important;
+}
+/* الدروب داون يفتح لأعلى لو قرب من أسفل المودال فميتقفلش */
+.ss-menu {
+    z-index: 60;
+}
+.ss-menu.ss-open-up {
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 0.25rem;
 }
